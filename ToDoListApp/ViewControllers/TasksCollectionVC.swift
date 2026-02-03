@@ -22,10 +22,54 @@ final class TasksCollectionVC: UICollectionViewController {
         cell.label.text = taskListArray[indexPath.row].title
         return cell
     }
+    
+    private func editTask(at indexPath: IndexPath) {
+        
+    }
+    
+    private func shareTask(at indexPath: IndexPath) {
+        
+    }
+    
+    private func deleteTask(at indexPath: IndexPath) {
+        
+    }
 }
 
 extension TasksCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: UIScreen.main.bounds.width - 50, height: 50)
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let userAction = taskListArray[indexPath.item]
+        
+        switch userAction {
+        case .FirstCell: return
+        case .SecondCell: return
+        case .ThirdCell: return
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        guard let indexPath = indexPaths.first else { return nil }
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            
+            let edit = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil")) { [weak self] _ in
+                self?.editTask(at: indexPath)
+            }
+            
+            let share = UIAction(title: "Поделиться", image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
+                self?.shareTask(at: indexPath)
+            }
+            
+            let delete = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] _ in
+                self?.deleteTask(at: indexPath)
+            }
+            return UIMenu(title: "", children: [edit, share, delete])
+        }
+    }
+    
 }
