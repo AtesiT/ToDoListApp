@@ -33,11 +33,25 @@ final class TaskCollectionViewCell: UICollectionViewCell {
             statusImageView.tintColor = .systemYellow
             //  Добавляем атрибуты зачеркнутой линии, чтобы присвоить их тексту, вместе с галочкой в кружочке
             let crossTitle = NSMutableAttributedString(string: titleLabel.text ?? "")
-            crossTitle.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, crossTitle.length))
             
-            //  Присваимваем аттрибут
+            //  Зачеркнутый аттрибут
+            crossTitle.addAttribute(
+                .strikethroughStyle,
+                value: NSUnderlineStyle.single.rawValue,
+                range: NSMakeRange(0, crossTitle.length)
+            )
+            
+            //  Добавляем цвет серый через аттрибуты, т.к. если присвоить напрямую, то вместе с зачеркиванием может не получится серый цвет в некоторых версиях iOS
+            crossTitle.addAttribute(
+                .foregroundColor,
+                value: UIColor.systemGray,
+                range: NSMakeRange(0, crossTitle.length)
+            )
+            
+            //  Присваиваем аттрибут
             titleLabel.attributedText = crossTitle
-            titleLabel.tintColor = .systemGray
+            descriptionLabel.textColor = .systemGray
+            dataLabel.textColor = .systemGray
             
         } else {
             //  Добавляем серый кружочек
@@ -48,7 +62,11 @@ final class TaskCollectionViewCell: UICollectionViewCell {
             let unCrossTitle = titleLabel.text ?? ""
             titleLabel.attributedText = nil
             titleLabel.text = unCrossTitle
+            
+            // Присваиваем обратно изначальный стандартный цвет текста
             titleLabel.textColor = .label
+            descriptionLabel.textColor = .label
+            dataLabel.textColor = .label
         }
     }
 }

@@ -97,8 +97,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Vt0-TI-ahq">
-                                <rect key="frame" x="44" y="172" width="303.66666666666669" height="207"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Vt0-TI-ahq">
+                                <rect key="frame" x="20" y="180" width="353" height="207"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="guy-qh-d8h">
                                         <rect key="frame" x="0.0" y="0.0" width="303.66666666666669" height="63"/>
@@ -110,14 +110,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="02/10/24" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="78S-Md-7Mr">
-                                                <rect key="frame" x="0.0" y="48.666666666666664" width="50.333333333333336" height="14.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="48.666666666666657" width="50.333333333333336" height="14.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5ku-Ai-frT">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5ku-Ai-frT">
                                         <rect key="frame" x="0.0" y="79" width="240" height="128"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -130,8 +130,15 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vMq-9J-4FC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Vt0-TI-ahq" firstAttribute="leading" secondItem="vMq-9J-4FC" secondAttribute="leading" constant="20" id="5Vj-4n-9vo"/>
+                            <constraint firstItem="vMq-9J-4FC" firstAttribute="trailing" secondItem="Vt0-TI-ahq" secondAttribute="trailing" constant="20" id="X9V-ML-8Aj"/>
+                            <constraint firstItem="Vt0-TI-ahq" firstAttribute="height" secondItem="C5m-Q6-mFA" secondAttribute="height" multiplier="0.242958" id="ha8-oT-N0K"/>
+                            <constraint firstItem="Vt0-TI-ahq" firstAttribute="width" secondItem="C5m-Q6-mFA" secondAttribute="height" multiplier="353:852" id="kq3-oy-hDx"/>
+                            <constraint firstItem="Vt0-TI-ahq" firstAttribute="top" secondItem="C5m-Q6-mFA" secondAttribute="topMargin" constant="8" id="wOM-36-Hpj"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Iux-Fq-OdP"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="Iux-Fq-OdP"/>
                     <connections>
                         <outlet property="dataTask" destination="78S-Md-7Mr" id="OaL-Xp-4Zk"/>
                         <outlet property="textTask" destination="5ku-Ai-frT" id="1EL-dy-cUD"/>
