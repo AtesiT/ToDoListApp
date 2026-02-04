@@ -119,13 +119,16 @@
         <!--Navigation Controller-->
         <scene sceneID="E05-Vj-fBQ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kvy-PT-sfJ" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Kvy-PT-sfJ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jBZ-NA-DGh">
-                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="jBZ-NA-DGh">
+                        <rect key="frame" x="0.0" y="118" width="393" height="106"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="eta-9p-PK0">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="eWZ-B2-tZp" kind="relationship" relationship="rootViewController" id="qFb-M7-9aL"/>
                     </connections>

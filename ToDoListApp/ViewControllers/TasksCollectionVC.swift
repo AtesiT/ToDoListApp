@@ -4,10 +4,68 @@ private let reuseIdentifier = "taskCell"
 
 private let taskListArray = TemporaryData.allCases
 
-final class TasksCollectionVC: UICollectionViewController {
-
+final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setNavgiationBar()
+        setToolBar()
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+    }
+    
+    private func setNavgiationBar() {
+        let searchController = UISearchController(searchResultsController: nil)
+        let searchBar = searchController.searchBar
+        
+        searchBar.placeholder = "Search"
+        //  Добавляем значок закладки, после чего заменяем на микрофон
+        searchBar.showsBookmarkButton = true
+        searchBar.setImage(UIImage(systemName: "mic.fill"), for: .bookmark, state: .normal)
+        
+        //  Для обрабатывания нажатия
+        searchBar.delegate = self
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
+    private func setToolBar() {
+        //  Делаем toolbar видимым
+        navigationController?.isToolbarHidden = false
+        
+        //  Добавляем свободное пространство для toolbar
+        let freeSpace = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        
+        //  Добавление подсчета количества задач
+        let countLabel = UIBarButtonItem(
+            title: "\(taskListArray.count) задач",
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        
+        //  Делаем так, чтобы это не было как кнопка
+        countLabel.isEnabled = false
+        
+        //  Добавление создание кнопки
+        let createButton = UIBarButtonItem(
+            image: UIImage(systemName: "square.and.pencil"),
+            style: .plain,
+            target: self,
+            action: #selector(createNewTask)
+        )
+        
+        toolbarItems = [freeSpace, countLabel, freeSpace, createButton]
+    }
+    
+    @objc private func createNewTask() {
+        print("Test")
     }
     
     // MARK: Cell
