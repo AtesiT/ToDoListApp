@@ -77,7 +77,7 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         guard let cell = cell as? TaskCollectionViewCell else { return UICollectionViewCell() }
-        cell.label.text = taskListArray[indexPath.row].title
+        cell.titleLabel.text = taskListArray[indexPath.row].title
         return cell
     }
     
