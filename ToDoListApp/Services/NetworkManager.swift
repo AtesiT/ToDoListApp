@@ -20,4 +20,30 @@ final class NetworkManager {
             }
         }.resume()
     }
+    
+    func fetchDataFromYandexDisk(from url: URL) {
+        let apiWithURL = "https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=\(url)"
+        guard let url = URL(string: apiWithURL) else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data else { return }
+            
+            do {
+                if let jsonData = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let downloadUrlString = jsonData["href"] as? String,
+                   let downloadUrl = URL(string: downloadUrlString) {
+                    NetworkManager.shared.fetchData(from: downloadUrl) { result in
+                        switch result {
+                        case .success(let data):
+                            print(data)
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                }
+            } catch {
+                print(error)
+            }
+        }.resume()
+    }
 }

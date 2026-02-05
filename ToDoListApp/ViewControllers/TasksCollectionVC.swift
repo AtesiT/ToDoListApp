@@ -15,6 +15,8 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         setToolBar()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        
+        networkManager.fetchDataFromYandexDisk(from: URL(string: "https://disk.360.yandex.ru/d/QWunjxshsMk-zg")!)
     }
     
     private func setNavgiationBar() {
