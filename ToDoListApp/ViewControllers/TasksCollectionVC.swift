@@ -4,6 +4,8 @@ private let reuseIdentifier = "taskCell"
 
 private let taskListArray = TemporaryData.allCases
 
+private let networkManager = NetworkManager.shared
+
 final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
