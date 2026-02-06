@@ -6,6 +6,7 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dataLabel: UILabel!
  
+    private var task: TaskEntity?
     private var isDone: Bool = false
     
     override func awakeFromNib() {
@@ -17,12 +18,27 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         //  Добавляем действие, которое происходит при нажатии на кнопку
         let tapOnCell = UITapGestureRecognizer(target: self, action: #selector(toggleStatus))
         statusImageView.addGestureRecognizer(tapOnCell)
+    }
+    
+    func configure(with task: TaskEntity) {
+        self.task = task
+        self.isDone = task.completed
+        
+        titleLabel.text = task.todo
+        // TODO: - Поправить описание и дату
+        descriptionLabel.text = "Описание: \(task.userId)"
+        dataLabel.text = "Дата: \(task.id)"
         updateUI()
     }
     
-    //  Меняем значение isDone на противоположное ему, при взаимодействии. А также обновляем интерфейс.
+    //  Меняем значение isDone на противоположное ему, при взаимодействии и обновляем интерфейс.
+    //  Также, присваиваем элементу интерфейса значок сделанной\не сделанной задачи, после чего обновляем данные.
     @objc private func toggleStatus() {
         isDone.toggle()
+        task?.completed = isDone
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.saveContext()
+        }
         updateUI()
     }
     
@@ -58,10 +74,9 @@ final class TaskCollectionViewCell: UICollectionViewCell {
             statusImageView.image = UIImage(systemName: "circle")
             statusImageView.tintColor = .systemGray
             
-            //  Присваиваем в unCrossTitle наш текст и очищаем аттрибуты
-            let unCrossTitle = titleLabel.text ?? ""
+            //  Очищаем аттрибуты и присваиваем текст
             titleLabel.attributedText = nil
-            titleLabel.text = unCrossTitle
+            titleLabel.text = task?.todo
             
             // Присваиваем обратно изначальный стандартный цвет текста
             titleLabel.textColor = .label
