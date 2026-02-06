@@ -1,33 +1,54 @@
 import UIKit
+internal import CoreData
 
 private let reuseIdentifier = "taskCell"
 
 private let taskListArray = TemporaryData.allCases
 
-private let networkManager = NetworkManager.shared
-
 final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
+    
+    private var tasks: [TaskEntity] = []
+    private let networkManager = NetworkManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavgiationBar()
         setToolBar()
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
+        //  Уведомление об обновлении данных
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: NSNotification.Name("DataLoaded"), object: nil)
+        
+        //  Загружаем данные
+        fetchFromCoreData()
         fetchDataTodos()
     }
     
-    private func fetchDataTodos() {
-        networkManager.fetchData(from: URL(string: "https://dummyjson.com/todos")!) { result in
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
-            }
+    @objc func reloadData() {
+        fetchFromCoreData()
+    }
+    
+    private func fetchFromCoreData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        
+        // Запрос к базе данных
+        let request: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+        
+        do {
+            //  Вытягиваем данные
+            tasks = try context.fetch(request)
+            collectionView.reloadData()
+        } catch {
+            print("Failed to fetch data from Core Data: \(error)")
         }
+    }
+    
+    private func fetchDataTodos() {
+        networkManager.fetchData(from: URL(string: "https://dummyjson.com/todos")!)
     }
     
     private func setNavgiationBar() {
@@ -86,26 +107,39 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     // MARK: Cell
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        taskListArray.count
+        tasks.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         guard let cell = cell as? TaskCollectionViewCell else { return UICollectionViewCell() }
-        cell.titleLabel.text = taskListArray[indexPath.row].title
+        
+        let task = tasks[indexPath.item]
+        cell.configure(with: task)
+
         return cell
     }
     
     private func editTask(at indexPath: IndexPath) {
-        
+        print("Check")
     }
     
     private func shareTask(at indexPath: IndexPath) {
-        
+        print("Check two")
     }
     
     private func deleteTask(at indexPath: IndexPath) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
         
+        let deleteTask = tasks[indexPath.item]
+        
+        context.delete(deleteTask)
+        tasks.remove(at: indexPath.item)
+        
+        appDelegate.saveContext()
+        
+        collectionView.deleteItems(at: [indexPath])
     }
 }
 
