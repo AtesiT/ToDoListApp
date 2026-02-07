@@ -121,7 +121,13 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     }
     
     private func editTask(at indexPath: IndexPath) {
-        print("Check")
+        let theEditTask = tasks[indexPath.item]
+        //  Создание экземпляра контроллера
+        guard let taskVC = storyboard?.instantiateViewController(withIdentifier: "TaskVC") as? TaskVC else { return }
+    
+        taskVC.task = theEditTask
+        //  Выполнение перехода с showSegue
+        navigationController?.pushViewController(taskVC, animated: true)
     }
     
     private func shareTask(at indexPath: IndexPath) {
@@ -156,13 +162,7 @@ extension TasksCollectionVC: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let userAction = taskListArray[indexPath.item]
-        
-        switch userAction {
-        case .FirstCell: return
-        case .SecondCell: return
-        case .ThirdCell: return
-        }
+        editTask(at: indexPath)
     }
     
     override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {

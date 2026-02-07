@@ -72,7 +72,6 @@
                                     <outlet property="descriptionLabel" destination="6ls-Fu-qHW" id="PXi-mS-w1Q"/>
                                     <outlet property="statusImageView" destination="IRl-tz-Lc2" id="tag-WE-zzN"/>
                                     <outlet property="titleLabel" destination="EZe-hf-BQf" id="jjv-D7-GVm"/>
-                                    <segue destination="sT3-iZ-rN3" kind="show" id="5FL-cm-mzO"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -92,13 +91,13 @@
         <!--TaskVC-->
         <scene sceneID="3gV-lJ-qox">
             <objects>
-                <viewController id="sT3-iZ-rN3" customClass="TaskVC" customModule="ToDoListApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TaskVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sT3-iZ-rN3" customClass="TaskVC" customModule="ToDoListApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C5m-Q6-mFA">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Vt0-TI-ahq">
-                                <rect key="frame" x="20" y="180" width="353" height="648"/>
+                                <rect key="frame" x="20" y="126" width="353" height="648"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="guy-qh-d8h">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="63"/>
