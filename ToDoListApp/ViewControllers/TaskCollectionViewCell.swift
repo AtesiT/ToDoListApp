@@ -9,6 +9,7 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     private var task: TaskEntity?
     private var isDone: Bool = false
     
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -18,6 +19,14 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         //  Добавляем действие, которое происходит при нажатии на кнопку
         let tapOnCell = UITapGestureRecognizer(target: self, action: #selector(toggleStatus))
         statusImageView.addGestureRecognizer(tapOnCell)
+    }
+    
+    override func prepareForReuse() {
+        //  Подготовка к переиспользованию ячейки
+        super.prepareForReuse()
+        titleLabel.attributedText = nil
+        titleLabel.text = nil
+        statusImageView.image = UIImage(systemName: "circle")
     }
     
     func configure(with task: TaskEntity) {
@@ -43,6 +52,13 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     }
     
     private func updateUI() {
+        //  Сброс настроек ячейки
+        titleLabel.attributedText = nil
+        titleLabel.text = task?.todo
+        titleLabel.textColor = .label
+        descriptionLabel.textColor = .label
+        dataLabel.textColor = .label
+        
         if isDone {
             //  Добавляем значок галочки в кружочке и присваиваем ей цвет
             statusImageView.image = UIImage(systemName: "checkmark.circle")
@@ -75,8 +91,8 @@ final class TaskCollectionViewCell: UICollectionViewCell {
             statusImageView.tintColor = .systemGray
             
             //  Очищаем аттрибуты и присваиваем текст
-            titleLabel.attributedText = nil
-            titleLabel.text = task?.todo
+            //  titleLabel.attributedText = nil
+            //  titleLabel.text = task?.todo
             
             // Присваиваем обратно изначальный стандартный цвет текста
             titleLabel.textColor = .label
