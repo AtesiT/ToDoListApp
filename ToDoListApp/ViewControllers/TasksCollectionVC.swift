@@ -7,14 +7,20 @@ private let taskListArray = TemporaryData.allCases
 
 final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     
+    // Будет хранить отфильтрованные задачи
+    private var filteredTasks: [TaskEntity] = []
     private var tasks: [TaskEntity] = []
     private let networkManager = NetworkManager.shared
+    
+    //  Булевое значение того, пользователь набрал текст в search или нет
+    private var isFiltering: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavgiationBar()
         setToolBar()
+        setupSearchController()
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
@@ -29,6 +35,17 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     
     @objc func reloadData() {
         fetchFromCoreData()
+    }
+    
+    private func setupSearchController() {
+        //  Инициализация поиска
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     private func fetchFromCoreData() {
@@ -107,21 +124,19 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     // MARK: Cell
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        tasks.count
+        return isFiltering ? filteredTasks.count : tasks.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         guard let cell = cell as? TaskCollectionViewCell else { return UICollectionViewCell() }
-        
-        let task = tasks[indexPath.item]
+        let task = isFiltering ? filteredTasks[indexPath.item] : tasks[indexPath.item]
         cell.configure(with: task)
-
         return cell
     }
     
     private func editTask(at indexPath: IndexPath) {
-        let theEditTask = tasks[indexPath.item]
+        let theEditTask = isFiltering ? filteredTasks[indexPath.item] : tasks[indexPath.item]
         //  Создание экземпляра контроллера
         guard let taskVC = storyboard?.instantiateViewController(withIdentifier: "TaskVC") as? TaskVC else { return }
     
@@ -186,4 +201,32 @@ extension TasksCollectionVC: UICollectionViewDelegateFlowLayout {
         }
     }
     
+}
+
+extension TasksCollectionVC: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {return}
+        
+        //  Если в поисковике есть какой-либо текст, то меняем булевое значение на положительное (обозначая, что пользователь написал что-то в поиске)
+        if text.isEmpty {
+            isFiltering = false
+            collectionView.reloadData()
+        } else {
+            isFiltering = true
+            
+            //  Переходим в фоновый поток
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                guard let self else {return}
+                
+                //  Фильтруем задачи по полю названий задач (также, при наборе текста, добавляем lowercased, чтобы не было разницы при фильтрации с названием задачи с большими буквами)
+                self.filteredTasks = self.tasks.filter { task in
+                    return task.todo?.lowercased().contains(text.lowercased()) ?? false
+                }
+            }
+            //  Обновляем интерфейс в main thread
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
 }

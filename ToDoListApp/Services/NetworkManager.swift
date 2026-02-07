@@ -28,9 +28,10 @@ final class NetworkManager {
     
     private func saveInCoreData(todos: [Todos]) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
+        let container = appDelegate.persistentContainer
+            
         //  Делаем так, чтобы на фоновом потоке выполнялись операции
-        let backgroundContext = appDelegate.persistentContainer.newBackgroundContext()
+        let backgroundContext = container.newBackgroundContext()
         
         backgroundContext.perform {
             todos.forEach { todoData in
@@ -42,7 +43,6 @@ final class NetworkManager {
             }
             do {
                 try backgroundContext.save()
-                print("Проверка: \(todos.count)")
                 //  Отправляем уведомление с именем "DataLoaded"
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: NSNotification.Name("DataLoaded"), object: nil)
