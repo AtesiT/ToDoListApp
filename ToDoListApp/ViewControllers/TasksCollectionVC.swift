@@ -125,7 +125,14 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     }
     
     private func shareTask(at indexPath: IndexPath) {
-        print("Check two")
+        //  Подготавливаем константу, в которой будет лежать наша задача
+        let theTask = tasks[indexPath.item]
+        let textOfTheTask = "Задача: \(theTask.todo ?? "")"
+        
+        //  Создание контроллера для возможно поделиться
+        let activityVC = UIActivityViewController(activityItems: [textOfTheTask], applicationActivities: nil)
+        
+        self.present(activityVC, animated: true, completion: nil)
     }
     
     private func deleteTask(at indexPath: IndexPath) {
