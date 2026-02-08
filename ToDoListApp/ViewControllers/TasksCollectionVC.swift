@@ -124,7 +124,20 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
     }
     
     @objc private func createNewTask() {
-        print("Test")
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        
+        //  Создаем задачу в базе данных
+        let newTask = TaskEntity(context: context)
+        newTask.id = Int64(Date().timeIntervalSince1970)
+        newTask.todo = ""
+        newTask.taskDescription = ""
+        newTask.completed = false
+        
+        //  Переход на Storyboard с текущей задачей
+        guard let taskVC = storyboard?.instantiateViewController(withIdentifier: "TaskVC") as? TaskVC else { return }
+        taskVC.task = newTask
+        navigationController?.pushViewController(taskVC, animated: true)
     }
     
     // MARK: Cell

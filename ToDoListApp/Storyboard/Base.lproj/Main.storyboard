@@ -97,19 +97,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Vt0-TI-ahq">
-                                <rect key="frame" x="20" y="126" width="353" height="648"/>
+                                <rect key="frame" x="20" y="126" width="353" height="656.33333333333337"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="guy-qh-d8h">
-                                        <rect key="frame" x="0.0" y="0.0" width="353" height="63"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="71.333333333333329"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Заняться спортом" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdq-jo-3Y2">
-                                                <rect key="frame" x="0.0" y="0.0" width="303.66666666666669" height="40.666666666666664"/>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Название задачи" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5tm-SC-IVg">
+                                                <rect key="frame" x="0.0" y="0.0" width="315.66666666666669" height="49"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="02/10/24" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="78S-Md-7Mr">
-                                                <rect key="frame" x="0.0" y="48.666666666666657" width="50.333333333333336" height="14.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="57.000000000000007" width="50.333333333333336" height="14.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -117,7 +116,7 @@
                                         </subviews>
                                     </stackView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="  " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5ku-Ai-frT">
-                                        <rect key="frame" x="0.0" y="79" width="353" height="569"/>
+                                        <rect key="frame" x="0.0" y="87.333333333333371" width="353" height="569"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -140,7 +139,7 @@
                     <connections>
                         <outlet property="dataTask" destination="78S-Md-7Mr" id="OaL-Xp-4Zk"/>
                         <outlet property="textTask" destination="5ku-Ai-frT" id="1EL-dy-cUD"/>
-                        <outlet property="titleTask" destination="bdq-jo-3Y2" id="eFH-CV-ItD"/>
+                        <outlet property="titleTask" destination="5tm-SC-IVg" id="5oW-mS-H25"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="600-1x-hGz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
