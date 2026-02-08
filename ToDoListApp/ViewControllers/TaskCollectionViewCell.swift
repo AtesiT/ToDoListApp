@@ -26,18 +26,29 @@ final class TaskCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         titleLabel.attributedText = nil
         titleLabel.text = nil
-        statusImageView.image = UIImage(systemName: "circle")
+        descriptionLabel.text = nil
+        dataLabel.text = nil
+        statusImageView.image = nil
     }
     
     func configure(with task: TaskEntity) {
         self.task = task
         self.isDone = task.completed
         
+        //  Присвоение информации в labels в ячейках
+        titleLabel.attributedText = nil
         titleLabel.text = task.todo
-        // TODO: - Поправить описание и дату
-        descriptionLabel.text = "Описание: \(task.userId)"
-        dataLabel.text = "Дата: \(task.id)"
+        descriptionLabel.text = (task.taskDescription?.isEmpty ?? true) ? "" : task.taskDescription
+        
+        dataLabel.text = formatDate(Date())
         updateUI()
+    }
+    
+    private func formatDate(_ date: Date) -> String {
+        //  Установка даты
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yy"
+        return formatter.string(from: date)
     }
     
     //  Меняем значение isDone на противоположное ему, при взаимодействии и обновляем интерфейс.
@@ -45,6 +56,7 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     @objc private func toggleStatus() {
         isDone.toggle()
         task?.completed = isDone
+        
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.saveContext()
         }
@@ -53,18 +65,20 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     
     private func updateUI() {
         //  Сброс настроек ячейки
-        titleLabel.attributedText = nil
-        titleLabel.text = task?.todo
         titleLabel.textColor = .label
         descriptionLabel.textColor = .label
-        dataLabel.textColor = .label
+        dataLabel.textColor = .secondaryLabel
+        //  Добавляем пустой серый кружочек
+        statusImageView.image = UIImage(systemName: "circle")
+        statusImageView.tintColor = .systemGray
         
         if isDone {
             //  Добавляем значок галочки в кружочке и присваиваем ей цвет
             statusImageView.image = UIImage(systemName: "checkmark.circle")
             statusImageView.tintColor = .systemYellow
             //  Добавляем атрибуты зачеркнутой линии, чтобы присвоить их тексту, вместе с галочкой в кружочке
-            let crossTitle = NSMutableAttributedString(string: titleLabel.text ?? "")
+            let text = titleLabel.text ?? ""
+            let crossTitle = NSMutableAttributedString(string: text)
             
             //  Зачеркнутый аттрибут
             crossTitle.addAttribute(
@@ -86,18 +100,9 @@ final class TaskCollectionViewCell: UICollectionViewCell {
             dataLabel.textColor = .systemGray
             
         } else {
-            //  Добавляем серый кружочек
-            statusImageView.image = UIImage(systemName: "circle")
-            statusImageView.tintColor = .systemGray
-            
-            //  Очищаем аттрибуты и присваиваем текст
-            //  titleLabel.attributedText = nil
-            //  titleLabel.text = task?.todo
-            
             // Присваиваем обратно изначальный стандартный цвет текста
-            titleLabel.textColor = .label
-            descriptionLabel.textColor = .label
-            dataLabel.textColor = .label
+            titleLabel.attributedText = nil
+            titleLabel.text = task?.todo
         }
     }
 }

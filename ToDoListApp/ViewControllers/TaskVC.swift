@@ -1,4 +1,5 @@
 import UIKit
+internal import CoreData
 
 final class TaskVC: UIViewController {
 
@@ -16,17 +17,48 @@ final class TaskVC: UIViewController {
     private func setupUI() {
         //  Устанавливаем необходимые данные в UI
         guard let task = task else {return}
-        titleTask.text = "\(task.id)"
-        dataTask.text = "\(task.completed)"
-        textTask.text = "\(task.todo ?? "")"
+        
+        titleTask.text = task.todo
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        dataTask.text = formatter.string(from: Date())
+        
+        textTask.text = task.taskDescription
+    }
+    
+    func saveTaskDescription() {
+        guard let task = task else {return}
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let context = appDelegate.persistentContainer.viewContext
+        let text = textTask.text
+        
+        context.perform {
+            task.taskDescription = text
+            try? context.save()
+        }
+    }
+    
+    private func saveAllChanges() {
+        guard let task = task else {return}
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        
+        task.taskDescription = textTask.text
+        
+        let context = appDelegate.persistentContainer.viewContext
+        context.perform {
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         //  Перед тем, как пользователь пожелает закрыть viewController(нажав на кнопку "Назад" или сделав Swipe, мы сохраним данные)
         super.viewWillDisappear(true)
-        guard let task = task, let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        task.todo = textTask.text
-        appDelegate.saveContext()
+        saveTaskDescription()
         NotificationCenter.default.post(name: NSNotification.Name("DataLoaded"), object: nil)
     }
 }
