@@ -33,6 +33,12 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         fetchDataTodos()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //  Обновляем данные после того, как снова возвращаемся на экран CollectionView
+        fetchFromCoreData()
+    }
+    
     @objc func reloadData() {
         fetchFromCoreData()
     }

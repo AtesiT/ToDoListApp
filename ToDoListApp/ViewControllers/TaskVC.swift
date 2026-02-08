@@ -57,8 +57,13 @@ final class TaskVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         //  Перед тем, как пользователь пожелает закрыть viewController(нажав на кнопку "Назад" или сделав Swipe, мы сохраним данные)
-        super.viewWillDisappear(true)
-        saveTaskDescription()
+        super.viewWillDisappear(animated)
+        guard let task = task else {return}
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        //  Передача данных
+        task.todo = titleTask.text
+        task.taskDescription = textTask.text
+        appDelegate.saveContext()
         NotificationCenter.default.post(name: NSNotification.Name("DataLoaded"), object: nil)
     }
 }
