@@ -104,7 +104,7 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         
         //  Добавление подсчета количества задач
         let countLabel = UIBarButtonItem(
-            title: "\(tasks.count) задач",
+            title: "\(tasks.count) \(getCorrectRemainderOfTaskWord(tasks.count))",
             style: .plain,
             target: nil,
             action: nil
@@ -122,6 +122,19 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         )
         
         toolbarItems = [freeSpace, countLabel, freeSpace, createButton]
+    }
+    
+    private func getCorrectRemainderOfTaskWord(_ count: Int) -> String {
+        let remainderByDivide10 = count % 10
+        let remainderByDivide100 = count % 100
+        
+        if remainderByDivide100 >= 11 && remainderByDivide100 <= 19 {
+            return "задач"
+        } else if remainderByDivide10 == 1 {
+            return "задача"
+        } else if remainderByDivide10 >= 2 && remainderByDivide10 <= 4 {
+            return "задачи" } else {
+            return "задач" }
     }
     
     @objc private func createNewTask() {
