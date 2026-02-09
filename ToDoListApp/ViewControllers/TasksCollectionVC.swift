@@ -124,7 +124,7 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         toolbarItems = [freeSpace, countLabel, freeSpace, createButton]
     }
     
-    private func getCorrectRemainderOfTaskWord(_ count: Int) -> String {
+    func getCorrectRemainderOfTaskWord(_ count: Int) -> String {
         let remainderByDivide10 = count % 10
         let remainderByDivide100 = count % 100
         
