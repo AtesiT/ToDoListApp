@@ -65,6 +65,7 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
             //  Вытягиваем данные
             tasks = try context.fetch(request)
             collectionView.reloadData()
+            setToolBar()
         } catch {
             print("Failed to fetch data from Core Data: \(error)")
         }
@@ -103,7 +104,7 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         
         //  Добавление подсчета количества задач
         let countLabel = UIBarButtonItem(
-            title: "\(taskListArray.count) задач",
+            title: "\(tasks.count) задач",
             style: .plain,
             target: nil,
             action: nil
