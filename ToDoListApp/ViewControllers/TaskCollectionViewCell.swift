@@ -66,6 +66,7 @@ final class TaskCollectionViewCell: UICollectionViewCell {
     private func updateUI() {
         //  Сброс настроек ячейки
         titleLabel.textColor = .label
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         descriptionLabel.textColor = .label
         dataLabel.textColor = .secondaryLabel
         //  Добавляем пустой серый кружочек
@@ -79,7 +80,6 @@ final class TaskCollectionViewCell: UICollectionViewCell {
             //  Добавляем атрибуты зачеркнутой линии, чтобы присвоить их тексту, вместе с галочкой в кружочке
             let text = titleLabel.text ?? ""
             let crossTitle = NSMutableAttributedString(string: text)
-            
             //  Зачеркнутый аттрибут
             crossTitle.addAttribute(
                 .strikethroughStyle,

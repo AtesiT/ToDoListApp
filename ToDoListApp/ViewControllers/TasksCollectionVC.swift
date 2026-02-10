@@ -22,6 +22,11 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         setToolBar()
         setupSearchController()
         
+        //  Падданги(отступы) слева и справа
+        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
@@ -34,6 +39,18 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
             fetchDataTodos()
         }
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        //  Отступы для поисковика слева и справа
+        navigationController?.navigationBar.layoutMargins.left = 20
+        navigationController?.navigationBar.layoutMargins.right = 20
+        
+        if let searchBar = navigationItem.searchController?.searchBar {
+            searchBar.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,6 +115,13 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         //  Делаем toolbar видимым
         navigationController?.isToolbarHidden = false
         
+        //  Отступы для элементов toolbar'a
+        let leftPaddingToolBar = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        leftPaddingToolBar.width = 5
+        
+        let rightPaddingToolBar = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        rightPaddingToolBar.width = 5
+        
         //  Добавляем свободное пространство для toolbar
         let freeSpace = UIBarButtonItem(
             barButtonSystemItem: .flexibleSpace,
@@ -124,7 +148,7 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
             action: #selector(createNewTask)
         )
         
-        toolbarItems = [freeSpace, countLabel, freeSpace, createButton]
+        toolbarItems = [leftPaddingToolBar, freeSpace, countLabel, freeSpace, createButton, rightPaddingToolBar]
     }
     
     func getCorrectRemainderOfTaskWord(_ count: Int) -> String {
@@ -209,7 +233,10 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
 
 extension TasksCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width - 50, height: 50)
+        //  Установка ширины ячеек с отступами
+        let layout = collectionViewLayout as! UICollectionViewFlowLayout
+        let width = collectionView.bounds.width - layout.sectionInset.left - layout.sectionInset.right
+        return CGSize(width: width, height: 50)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
