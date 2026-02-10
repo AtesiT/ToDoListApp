@@ -30,7 +30,10 @@ final class TasksCollectionVC: UICollectionViewController, UISearchBarDelegate {
         
         //  Загружаем данные
         fetchFromCoreData()
-        fetchDataTodos()
+        if tasks.isEmpty {
+            fetchDataTodos()
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
